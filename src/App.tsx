@@ -4,8 +4,7 @@ import CalcInput from "./components/CalcInput";
 
 function App() {
   const [value, setValue] = useState<string>(" 0");
-  const [count, setCount] = useState<number>(0);
-  const calcValues: any = [
+  const calcValues: string[] = [
     "1",
     "2",
     "3",
@@ -28,13 +27,7 @@ function App() {
         <CalcInput value={value} />
         <div className=" w-[250px] h-[400px] grid grid-cols-3 gap-3  ">
           {calcValues.map((calc: any) => (
-            <CalcButton
-              value={value}
-              setValue={setValue}
-              count={count}
-              setCount={setCount}
-              text={calc}
-            />
+            <CalcButton value={value} setValue={setValue} text={calc} />
           ))}
         </div>
       </div>
