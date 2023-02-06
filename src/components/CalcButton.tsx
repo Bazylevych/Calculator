@@ -1,94 +1,67 @@
-import { useEffect, useState } from "react";
 interface CalcButtonProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
-  count: number;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
   text: string;
 }
 
-export default function CalcButton({
-  value,
-  setValue,
-  count,
-  setCount,
-  text,
-}: CalcButtonProps) {
-  const [cash, setCash] = useState<number>(0);
-
-  useEffect(() => {
-    // console.log("value: ", value);
-    // console.log("count: ", count);
-  }, [count, value]);
-
+export default function CalcButton({ value, setValue, text }: CalcButtonProps) {
+  // функция принимает значение нажатой кнопки и добавляет его в поле калькулятора
   const buttonNumber = (text: string) => {
-    const S: string = text;
-    if (value === " 0") {
-      setValue(" " + S);
-      setCount(parseInt(S));
+    if (!value.length && Number.isInteger(parseInt(text))) {
+      setValue(text);
+    } else if (!value.length && !Number.isInteger(parseInt(text))) {
+      setValue("0 " + text + " ");
     } else if (
-      value !== " 0" &&
-      value[value.length - 1] !== "+" &&
-      value[value.length - 1] !== "-"
+      Number.isInteger(parseInt(value[value.length - 1])) &&
+      Number.isInteger(parseInt(text))
     ) {
-      setValue(value + S);
-      setCount(parseInt(value[value.length - 1] + S));
-      //   console.log("POINT: ", value + S);
-      //   console.log("CASH: ", cash);
-    }
-    if (value[value.length - 1] === "+") {
-      setValue(value + " " + S);
-    }
-    if (value[value.length - 1] === "-") {
-      setValue(value + " " + S);
-    }
-  };
-
-  const buttonClear = () => {
-    setValue(" 0");
-    setCount(0);
-  };
-
-  const buttonPlusMinus = (text: string) => {
-    const arr: string[] = value.split(" ");
-
-    if (value && text === "+") {
-      setValue(value + " +");
-
-      if (arr[arr.length - 2] === "+" && arr.length >= 3) {
-        setCount(count + parseInt(arr[arr.length - 1]));
-        setCash(count + parseInt(arr[arr.length - 1]));
-      }
-    }
-
-    if (value && text === "-") {
-      setValue(value + " -");
-
-      if (arr[arr.length - 2] === "-" && arr.length >= 3) {
-        setCount(count - parseInt(arr[arr.length - 1]));
-        setCash(count - parseInt(arr[arr.length - 1]));
-      }
+      setValue(value + text);
+    } else if (
+      Number.isInteger(parseInt(value[value.length - 1])) &&
+      !Number.isInteger(parseInt(text))
+    ) {
+      setValue(value + " " + text + " ");
+    } else if (
+      value[value.length - 1] === " " &&
+      Number.isInteger(parseInt(text))
+    ) {
+      setValue(value + text);
     }
   };
 
+  // функция вывода результата
   const buttonResult = () => {
-    const arr: string[] = value.split(" ");
-    if (value) {
-      if (arr[arr.length - 2] === "+") {
-        setCount(count + parseInt(arr[arr.length - 1]));
-        setValue(`${count + parseInt(arr[arr.length - 1])}`);
-      } else if (arr[arr.length - 2] === "-") {
-        setCount(count - parseInt(arr[arr.length - 1]));
-        setValue(`${count - parseInt(arr[arr.length - 1])}`);
+    const result = value.trim().split(" ");
+
+    let result2 = 0;
+    for (let i = 0; i < result.length; i++) {
+      if (Number.isInteger(parseInt(result[i]))) {
+        if (i === 0) {
+          result2 = result2 + parseInt(result[i]);
+        } else if (result[i - 1] === "+") {
+          result2 = result2 + parseInt(result[i]);
+        } else if (result[i - 1] === "-") {
+          result2 = result2 - parseInt(result[i]);
+        }
+      } else {
+        continue;
       }
     }
+
+    setValue(` ${result2}`);
   };
 
+  // функция очистки поля ввода в калькуляторе
+  const buttonClear = () => {
+    setValue("");
+  };
+
+  // фунция принимающая текст нажатой кнопки и на его основе вызывает нужную функцию
   function CalcOnClick(text: string) {
     switch (text) {
-      case "1":
-        return buttonNumber(text);
       case "2":
+        return buttonNumber(text);
+      case "1":
         return buttonNumber(text);
       case "3":
         return buttonNumber(text);
@@ -107,9 +80,9 @@ export default function CalcButton({
       case "0":
         return buttonNumber(text);
       case "+":
-        return buttonPlusMinus(text);
+        return buttonNumber(text);
       case "-":
-        return buttonPlusMinus(text);
+        return buttonNumber(text);
       case "=":
         return buttonResult();
       case "C":
