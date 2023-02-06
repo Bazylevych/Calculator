@@ -21,9 +21,9 @@ function App() {
     "C",
   ];
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
+  // useEffect(() => {
+  //   console.log(value);
+  // }, [value]);
 
   return (
     <div className="flex items-center justify-center w-full h-screen bg-slate-500">

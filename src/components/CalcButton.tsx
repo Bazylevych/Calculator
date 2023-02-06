@@ -8,9 +8,9 @@ export default function CalcButton({ value, setValue, text }: CalcButtonProps) {
   // функция принимает значение нажатой кнопки и добавляет его в поле калькулятора
   const buttonNumber = (text: string) => {
     if (!value.length && Number.isInteger(parseInt(text))) {
-      setValue(" " + text);
+      setValue(text);
     } else if (!value.length && !Number.isInteger(parseInt(text))) {
-      setValue(" 0 " + text + " ");
+      setValue("0 " + text + " ");
     } else if (
       Number.isInteger(parseInt(value[value.length - 1])) &&
       Number.isInteger(parseInt(text))
