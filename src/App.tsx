@@ -3,7 +3,7 @@ import CalcButton from "./components/CalcButton";
 import CalcInput from "./components/CalcInput";
 
 function App() {
-  const [value, setValue] = useState<string>(" 0");
+  const [value, setValue] = useState<string>("");
   const calcValues: string[] = [
     "1",
     "2",
@@ -20,6 +20,10 @@ function App() {
     "=",
     "C",
   ];
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   return (
     <div className="flex items-center justify-center w-full h-screen bg-slate-500">

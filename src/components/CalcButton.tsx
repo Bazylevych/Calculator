@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 interface CalcButtonProps {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -7,7 +6,27 @@ interface CalcButtonProps {
 
 export default function CalcButton({ value, setValue, text }: CalcButtonProps) {
   // функция принимает значение нажатой кнопки и добавляет его в поле калькулятора
-  const buttonNumber = (text: string) => {};
+  const buttonNumber = (text: string) => {
+    if (!value.length && Number.isInteger(parseInt(text))) {
+      setValue(" " + text);
+    }
+    if (
+      Number.isInteger(parseInt(value[value.length - 1])) &&
+      Number.isInteger(parseInt(text))
+    ) {
+      setValue(value + text);
+    } else if (
+      Number.isInteger(parseInt(value[value.length - 1])) &&
+      !Number.isInteger(parseInt(text))
+    ) {
+      setValue(value + " " + text + " ");
+    } else if (
+      value[value.length - 1] === " " &&
+      Number.isInteger(parseInt(text))
+    ) {
+      setValue(value + text);
+    }
+  };
 
   // функция вывода результата
   const buttonResult = () => {};
@@ -19,18 +38,29 @@ export default function CalcButton({ value, setValue, text }: CalcButtonProps) {
 
   function CalcOnClick(text: string) {
     switch (text) {
-      case "1" ||
-        "2" ||
-        "3" ||
-        "4" ||
-        "5" ||
-        "6" ||
-        "7" ||
-        "8" ||
-        "9" ||
-        "0" ||
-        "+" ||
-        "-":
+      case "2":
+        return buttonNumber(text);
+      case "1":
+        return buttonNumber(text);
+      case "3":
+        return buttonNumber(text);
+      case "4":
+        return buttonNumber(text);
+      case "5":
+        return buttonNumber(text);
+      case "6":
+        return buttonNumber(text);
+      case "7":
+        return buttonNumber(text);
+      case "8":
+        return buttonNumber(text);
+      case "9":
+        return buttonNumber(text);
+      case "0":
+        return buttonNumber(text);
+      case "+":
+        return buttonNumber(text);
+      case "-":
         return buttonNumber(text);
       case "=":
         return buttonResult();

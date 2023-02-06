@@ -8,6 +8,7 @@ export default function CalcInput({ value }: CalcInputProps) {
       className="rounded-lg w-2/3 h-[40px] mt-10"
       value={value}
       type="text"
+      placeholder=" 0"
     />
   );
 }
