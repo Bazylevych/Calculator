@@ -9,8 +9,9 @@ export default function CalcButton({ value, setValue, text }: CalcButtonProps) {
   const buttonNumber = (text: string) => {
     if (!value.length && Number.isInteger(parseInt(text))) {
       setValue(" " + text);
-    }
-    if (
+    } else if (!value.length && !Number.isInteger(parseInt(text))) {
+      setValue(" 0 " + text + " ");
+    } else if (
       Number.isInteger(parseInt(value[value.length - 1])) &&
       Number.isInteger(parseInt(text))
     ) {
@@ -29,13 +30,33 @@ export default function CalcButton({ value, setValue, text }: CalcButtonProps) {
   };
 
   // функция вывода результата
-  const buttonResult = () => {};
+  const buttonResult = () => {
+    const result = value.trim().split(" ");
+
+    let result2 = 0;
+    for (let i = 0; i < result.length; i++) {
+      if (Number.isInteger(parseInt(result[i]))) {
+        if (i === 0) {
+          result2 = result2 + parseInt(result[i]);
+        } else if (result[i - 1] === "+") {
+          result2 = result2 + parseInt(result[i]);
+        } else if (result[i - 1] === "-") {
+          result2 = result2 - parseInt(result[i]);
+        }
+      } else {
+        continue;
+      }
+    }
+
+    setValue(` ${result2}`);
+  };
 
   // функция очистки поля ввода в калькуляторе
   const buttonClear = () => {
-    setValue(" 0");
+    setValue("");
   };
 
+  // фунция принимающая текст нажатой кнопки и на его основе вызывает нужную функцию
   function CalcOnClick(text: string) {
     switch (text) {
       case "2":

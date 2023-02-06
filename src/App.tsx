@@ -31,7 +31,12 @@ function App() {
         <CalcInput value={value} />
         <div className=" w-[250px] h-[400px] grid grid-cols-3 gap-3  ">
           {calcValues.map((calc: any) => (
-            <CalcButton value={value} setValue={setValue} text={calc} />
+            <CalcButton
+              value={value}
+              setValue={setValue}
+              text={calc}
+              key={calc}
+            />
           ))}
         </div>
       </div>
